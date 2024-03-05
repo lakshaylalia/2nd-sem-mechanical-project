@@ -2,15 +2,7 @@
 {
     partial class Form1
     {
-        /// <summary>
-        ///  Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
-
-        /// <summary>
-        ///  Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -29,6 +21,7 @@
         private void InitializeComponent()
         {
             panel1 = new Panel();
+            label5 = new Label();
             textBox1 = new TextBox();
             label4 = new Label();
             infoButton = new Button();
@@ -45,7 +38,6 @@
             panel4 = new Panel();
             panel7 = new Panel();
             label3 = new Label();
-            label5 = new Label();
             panel1.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
             panel2.SuspendLayout();
@@ -66,6 +58,15 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(982, 47);
             panel1.TabIndex = 0;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(340, 19);
+            label5.Name = "label5";
+            label5.Size = new Size(22, 20);
+            label5.TabIndex = 5;
+            label5.Text = "m";
             // 
             // textBox1
             // 
@@ -88,23 +89,29 @@
             // 
             // infoButton
             // 
+            infoButton.BackColor = SystemColors.AppWorkspace;
             infoButton.Dock = DockStyle.Right;
+            infoButton.FlatAppearance.BorderSize = 0;
+            infoButton.FlatStyle = FlatStyle.Flat;
             infoButton.Location = new Point(888, 0);
             infoButton.Name = "infoButton";
             infoButton.Size = new Size(94, 47);
             infoButton.TabIndex = 2;
             infoButton.Text = "( i ) Info";
-            infoButton.UseVisualStyleBackColor = true;
+            infoButton.UseVisualStyleBackColor = false;
             // 
             // LoadsButton
             // 
+            LoadsButton.BackColor = SystemColors.AppWorkspace;
             LoadsButton.Dock = DockStyle.Left;
+            LoadsButton.FlatAppearance.BorderSize = 0;
+            LoadsButton.FlatStyle = FlatStyle.Flat;
             LoadsButton.Location = new Point(0, 0);
             LoadsButton.Name = "LoadsButton";
             LoadsButton.Size = new Size(125, 47);
             LoadsButton.TabIndex = 0;
             LoadsButton.Text = "Loads";
-            LoadsButton.UseVisualStyleBackColor = true;
+            LoadsButton.UseVisualStyleBackColor = false;
             LoadsButton.Click += button1_Click;
             // 
             // tableLayoutPanel1
@@ -151,6 +158,7 @@
             // panel5
             // 
             panel5.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            panel5.BackColor = SystemColors.Control;
             panel5.Location = new Point(-3, 23);
             panel5.Name = "panel5";
             panel5.Size = new Size(979, 224);
@@ -238,15 +246,6 @@
             label3.Size = new Size(186, 20);
             label3.TabIndex = 0;
             label3.Text = "Bending Moment Diagram";
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Location = new Point(340, 19);
-            label5.Name = "label5";
-            label5.Size = new Size(22, 20);
-            label5.TabIndex = 5;
-            label5.Text = "m";
             // 
             // Form1
             // 
