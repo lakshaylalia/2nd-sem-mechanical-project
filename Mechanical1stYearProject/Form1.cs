@@ -1,3 +1,5 @@
+using System.Net.Mail;
+
 namespace Mechanical1stYearProject
 {
     public partial class Form1 : Form
@@ -120,7 +122,7 @@ namespace Mechanical1stYearProject
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            if(textBox1.Text == "")
+            if (textBox1.Text == "")
             {
                 textBox1.Text = "0.0";
                 barLength = 0.0f;
@@ -129,9 +131,30 @@ namespace Mechanical1stYearProject
             {
                 barLength = float.Parse(textBox1.Text);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 textBox1.Text = Convert.ToString(barLength);
+            }
+        }
+
+        private void updateDiagrams()
+        {
+            // updating the fd here
+            // add code to update the fd here
+
+            // updating the sfd here
+            sfd[0] = fd[0];
+
+            for(int i = 1; i < fd.Length; i++)
+            {
+                sfd[i] = sfd[i - 1] + fd[i];
+            }
+
+            // updating the bmd here
+            bmd[0] = 0;
+            for(int i = 1; i < fd.Length; i++)
+            {
+                bmd[i] = bmd[i - 1] + ((i * barLength / fd.Length) * fd[i]);
             }
         }
 
