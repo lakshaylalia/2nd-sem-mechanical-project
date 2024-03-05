@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             panel1 = new Panel();
+            textBox1 = new TextBox();
+            label4 = new Label();
             infoButton = new Button();
             LoadsButton = new Button();
             tableLayoutPanel1 = new TableLayoutPanel();
@@ -43,6 +45,7 @@
             panel4 = new Panel();
             panel7 = new Panel();
             label3 = new Label();
+            label5 = new Label();
             panel1.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
             panel2.SuspendLayout();
@@ -53,6 +56,9 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(label5);
+            panel1.Controls.Add(textBox1);
+            panel1.Controls.Add(label4);
             panel1.Controls.Add(infoButton);
             panel1.Controls.Add(LoadsButton);
             panel1.Dock = DockStyle.Top;
@@ -60,6 +66,25 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(982, 47);
             panel1.TabIndex = 0;
+            // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(244, 12);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(90, 27);
+            textBox1.TabIndex = 4;
+            textBox1.Text = "1.0";
+            textBox1.TextChanged += textBox1_TextChanged;
+            // 
+            // label4
+            // 
+            label4.Anchor = AnchorStyles.Left;
+            label4.AutoSize = true;
+            label4.Location = new Point(131, 13);
+            label4.Name = "label4";
+            label4.Size = new Size(107, 20);
+            label4.TabIndex = 3;
+            label4.Text = "Length of bar:-";
             // 
             // infoButton
             // 
@@ -214,6 +239,15 @@
             label3.TabIndex = 0;
             label3.Text = "Bending Moment Diagram";
             // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(340, 19);
+            label5.Name = "label5";
+            label5.Size = new Size(22, 20);
+            label5.TabIndex = 5;
+            label5.Text = "m";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -225,6 +259,7 @@
             Name = "Form1";
             Text = "Form1";
             panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             tableLayoutPanel1.ResumeLayout(false);
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
@@ -253,5 +288,8 @@
         private Panel panel6;
         private Panel panel7;
         private TableLayoutPanel LoadsList;
+        private TextBox textBox1;
+        private Label label4;
+        private Label label5;
     }
 }

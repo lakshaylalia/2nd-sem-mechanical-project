@@ -5,10 +5,22 @@ namespace Mechanical1stYearProject
         List<Button> pointLoadButtons, udlButtons;
         Label udlLabel, pointLoadLabel;
 
+        float barLength = 1.0f;
+
+        float[] fd; // force diagram
+        float[] bmd; // bending moment diagram
+        float[] sfd; // sheer force diagram
+
         public Form1()
         {
             pointLoadButtons = new List<Button>();
             udlButtons = new List<Button>();
+
+            int numberOfSteps = 1000;
+
+            fd = new float[numberOfSteps];
+            bmd = new float[numberOfSteps];
+            sfd = new float[numberOfSteps];
 
             Button addUdl = new Button(),
                 addPointLoad = new Button();
@@ -61,7 +73,7 @@ namespace Mechanical1stYearProject
             SetLoadsList();
         }
 
-        private void addPointLoad_Click(object sender, EventArgs e) 
+        private void addPointLoad_Click(object sender, EventArgs e)
         {
             Button b = new Button();
 
@@ -88,8 +100,8 @@ namespace Mechanical1stYearProject
         private void SetLoadsList()
         {
             LoadsList.Controls.Clear();
-            LoadsList.RowCount = pointLoadButtons.Count + udlButtons.Count + 2;
-            LoadsList.ColumnCount = 1;
+            LoadsList.RowCount = Math.Max(pointLoadButtons.Count, udlButtons.Count) + 1;
+            LoadsList.ColumnCount = 2;
 
             LoadsList.Controls.Add(pointLoadLabel, 0, 0);
 
@@ -98,11 +110,28 @@ namespace Mechanical1stYearProject
                 LoadsList.Controls.Add(pointLoadButtons[i], 0, i + 1);
             }
 
-            LoadsList.Controls.Add(udlLabel, 0, pointLoadButtons.Count + 1);
+            LoadsList.Controls.Add(udlLabel, 1, 0);
 
             for (int i = 0; i < udlButtons.Count; i++)
             {
-                LoadsList.Controls.Add(udlButtons[i], 0, i + pointLoadButtons.Count + 2);
+                LoadsList.Controls.Add(udlButtons[i], 1, i + 1);
+            }
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            if(textBox1.Text == "")
+            {
+                textBox1.Text = "0.0";
+                barLength = 0.0f;
+            }
+            try
+            {
+                barLength = float.Parse(textBox1.Text);
+            }
+            catch(Exception ex)
+            {
+                textBox1.Text = Convert.ToString(barLength);
             }
         }
 
