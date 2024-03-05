@@ -4,6 +4,9 @@ namespace Mechanical1stYearProject
 {
     public partial class Form1 : Form
     {
+        // these are used to make it so that only one extra window is opened at a time
+        bool udlBeingCreated = false, pointLoadBeingCreated = false, infoWindowOpened = false;
+
         Random r = new Random(); // to create random colors
 
         List<Button> pointLoadButtons, udlButtons;
@@ -17,6 +20,7 @@ namespace Mechanical1stYearProject
         float[] fd; // force diagram
         float[] bmd; // bending moment diagram
         float[] sfd; // sheer force diagram
+        float[] a; // this is used to make the udl and point forces
 
         int numberOfSteps = 1000;
 
@@ -74,6 +78,9 @@ namespace Mechanical1stYearProject
             addUdl.Text = "Add UDL";
             addPointLoad.Text = "Add point force";
 
+            addUdl.TextAlign = ContentAlignment.MiddleCenter;
+            addPointLoad.TextAlign = ContentAlignment.MiddleCenter;
+
             addUdl.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             addPointLoad.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 
@@ -89,8 +96,8 @@ namespace Mechanical1stYearProject
             addUdl.TextAlign = ContentAlignment.MiddleLeft;
             addPointLoad.TextAlign = ContentAlignment.MiddleCenter;
 
-            addUdl.Click += new System.EventHandler(this.addUdl_Click);
-            addPointLoad.Click += new System.EventHandler(this.addPointLoad_Click);
+            addUdl.Click += addUdl_Click;
+            addPointLoad.Click += addPointLoad_Click;
 
             pointLoadButtons.Add(addPointLoad);
             pointLoadValues.Add(new PointLoadValue());
@@ -114,29 +121,17 @@ namespace Mechanical1stYearProject
 
         private void addUdl_Click(object sender, EventArgs e)
         {
-            int red = r.Next(256), green = r.Next(256), blue = r.Next(256);
-
-            Button b = new Button();
-
-            b.Text = udlButtons.Count + ") UDL";
-            b.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            b.AutoSize = true;
-            b.Font = new Font("Segoe UI", 8);
-            b.TextAlign = ContentAlignment.MiddleLeft;
-            b.FlatStyle = FlatStyle.Flat;
-            b.FlatAppearance.BorderSize = 0;
-            b.Click += new System.EventHandler(udlButtons_Click);
-            b.BackColor = Color.FromArgb(red, green, blue);
-            b.ForeColor = Color.FromArgb(255 - red, 255 - green, 255 - blue);
-
-            udlButtons.Add(b);
+            if (udlBeingCreated)
+            {
+                return;
+            }
+            udlBeingCreated = true;
+            a = new float[3];
 
             // taking the different values of the udl from the user
-
-
-
-            udlValues.Add(new UdlValue(0, 0, 0));
-            SetLoadsList();
+            UdlInfoForm udlInfoForm = new UdlInfoForm(barLength, a);
+            udlInfoForm.Visible = true;
+            udlInfoForm.FormClosed += udlInfoFormClosed;
         }
 
         private void addPointLoad_Click(object sender, EventArgs e)
@@ -149,12 +144,12 @@ namespace Mechanical1stYearProject
             b.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             b.AutoSize = true;
             b.Font = new Font("Segoe UI", 8);
-            b.TextAlign = ContentAlignment.MiddleLeft;
             b.FlatStyle = FlatStyle.Flat;
             b.FlatAppearance.BorderSize = 0;
-            b.Click += new System.EventHandler(pointLoadButtons_Click);
+            b.Click += pointLoadButtons_Click;
             b.BackColor = Color.FromArgb(red, green, blue);
             b.ForeColor = Color.FromArgb(255 - red, 255 - green, 255 - blue);
+            b.Margin = new Padding(0, 0, 0, 0);
 
             pointLoadButtons.Add(b);
 
@@ -216,12 +211,12 @@ namespace Mechanical1stYearProject
         {
             // finding the reaction force rfA
             rfA = 0.0f;
-            foreach(PointLoadValue p in pointLoadValues)
+            foreach (PointLoadValue p in pointLoadValues)
             {
                 rfA += p.point * p.load;
             }
 
-            foreach(UdlValue u in udlValues)
+            foreach (UdlValue u in udlValues)
             {
                 rfA += u.udl * (u.end - u.start) * (u.end + u.start) / 2;
             }
@@ -249,7 +244,7 @@ namespace Mechanical1stYearProject
             }
 
             // now adding all the udls
-            foreach(UdlValue u in udlValues)
+            foreach (UdlValue u in udlValues)
             {
                 int istart = (int)Math.Round(u.start * numberOfSteps / barLength);
                 int iend = (int)Math.Round(u.end * numberOfSteps / barLength);
@@ -265,14 +260,14 @@ namespace Mechanical1stYearProject
             // updating the sfd here
             sfd[0] = fd[0];
 
-            for(int i = 1; i < numberOfSteps; i++)
+            for (int i = 1; i < numberOfSteps; i++)
             {
                 sfd[i] = sfd[i - 1] + fd[i];
             }
 
             // updating the bmd here
             bmd[0] = 0;
-            for(int i = 1; i < numberOfSteps; i++)
+            for (int i = 1; i < numberOfSteps; i++)
             {
                 bmd[i] = bmd[i - 1] + ((i * barLength / (float)numberOfSteps) * fd[i]);
             }
@@ -304,6 +299,37 @@ namespace Mechanical1stYearProject
         private void pictureBox1_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void infoButton_Click(object sender, EventArgs e)
+        {
+            InfoForm form = new InfoForm();
+            form.Visible = true;
+        }
+
+        private void udlInfoFormClosed(object sender, FormClosedEventArgs e)
+        {
+            int red = r.Next(256), green = r.Next(256), blue = r.Next(256);
+
+            Button b = new Button();
+
+            b.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            b.AutoSize = true;
+            b.Font = new Font("Segoe UI", 8);
+            b.FlatStyle = FlatStyle.Flat;
+            b.FlatAppearance.BorderSize = 0;
+            b.Click += udlButtons_Click;
+            b.BackColor = Color.FromArgb(red, green, blue);
+            b.ForeColor = Color.FromArgb(255 - red, 255 - green, 255 - blue);
+            b.Margin = new Padding(0, 0, 0, 0);
+            b.Text = a[0] + "N/m, " + a[1] + "m to " + a[2] + "m";
+
+            udlButtons.Add(b);
+
+            udlValues.Add(new UdlValue(a[1], a[2], a[0]));
+            SetLoadsList();
+
+            udlBeingCreated = false;
         }
     }
 }

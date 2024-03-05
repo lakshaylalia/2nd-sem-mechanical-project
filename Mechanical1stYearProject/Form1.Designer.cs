@@ -21,6 +21,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             panel1 = new Panel();
             label5 = new Label();
             textBox1 = new TextBox();
@@ -100,6 +101,7 @@
             infoButton.TabIndex = 2;
             infoButton.Text = "( i ) Info";
             infoButton.UseVisualStyleBackColor = false;
+            infoButton.Click += infoButton_Click;
             // 
             // LoadsButton
             // 
@@ -255,9 +257,10 @@
             ClientSize = new Size(982, 553);
             Controls.Add(tableLayoutPanel1);
             Controls.Add(panel1);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MinimumSize = new Size(1000, 600);
             Name = "Form1";
-            Text = "Form1";
+            Text = "SFD, BMD maker";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             tableLayoutPanel1.ResumeLayout(false);
