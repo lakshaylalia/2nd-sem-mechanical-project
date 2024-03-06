@@ -31,8 +31,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PointLoadInfoForm));
             label1 = new Label();
             label2 = new Label();
-            textBox1 = new TextBox();
-            textBox2 = new TextBox();
+            loadTextBox = new TextBox();
+            locationTextBox = new TextBox();
             label3 = new Label();
             label4 = new Label();
             doneButton = new Button();
@@ -56,19 +56,21 @@
             label2.TabIndex = 1;
             label2.Text = "Location:-";
             // 
-            // textBox1
+            // loadTextBox
             // 
-            textBox1.Location = new Point(69, 6);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(174, 27);
-            textBox1.TabIndex = 2;
+            loadTextBox.Location = new Point(69, 6);
+            loadTextBox.Name = "loadTextBox";
+            loadTextBox.Size = new Size(174, 27);
+            loadTextBox.TabIndex = 2;
+            loadTextBox.TextChanged += loadTextBox_TextChanged;
             // 
-            // textBox2
+            // locationTextBox
             // 
-            textBox2.Location = new Point(93, 42);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(150, 27);
-            textBox2.TabIndex = 3;
+            locationTextBox.Location = new Point(93, 42);
+            locationTextBox.Name = "locationTextBox";
+            locationTextBox.Size = new Size(150, 27);
+            locationTextBox.TabIndex = 3;
+            locationTextBox.TextChanged += locationTextBox_TextChanged;
             // 
             // label3
             // 
@@ -96,6 +98,7 @@
             doneButton.TabIndex = 6;
             doneButton.Text = "Done";
             doneButton.UseVisualStyleBackColor = true;
+            doneButton.Click += doneButton_Click;
             // 
             // PointLoadInfoForm
             // 
@@ -105,8 +108,8 @@
             Controls.Add(doneButton);
             Controls.Add(label4);
             Controls.Add(label3);
-            Controls.Add(textBox2);
-            Controls.Add(textBox1);
+            Controls.Add(locationTextBox);
+            Controls.Add(loadTextBox);
             Controls.Add(label2);
             Controls.Add(label1);
             FormBorderStyle = FormBorderStyle.FixedSingle;
@@ -114,6 +117,7 @@
             Name = "PointLoadInfoForm";
             StartPosition = FormStartPosition.CenterParent;
             Text = "Point Load Info Window";
+            FormClosing += PointLoadInfoForm_FormClosing;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -122,8 +126,8 @@
 
         private Label label1;
         private Label label2;
-        private TextBox textBox1;
-        private TextBox textBox2;
+        private TextBox loadTextBox;
+        private TextBox locationTextBox;
         private Label label3;
         private Label label4;
         private Button doneButton;

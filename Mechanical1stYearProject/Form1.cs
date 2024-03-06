@@ -121,7 +121,7 @@ namespace Mechanical1stYearProject
 
         private void addUdl_Click(object sender, EventArgs e)
         {
-            if (udlBeingCreated)
+            if (udlBeingCreated || pointLoadBeingCreated || infoWindowOpened)
             {
                 return;
             }
@@ -136,28 +136,17 @@ namespace Mechanical1stYearProject
 
         private void addPointLoad_Click(object sender, EventArgs e)
         {
-            int red = r.Next(256), green = r.Next(256), blue = r.Next(256);
+            if (udlBeingCreated || pointLoadBeingCreated || infoWindowOpened)
+            {
+                return;
+            }
+            pointLoadBeingCreated = true;
+            a = new float[2];
 
-            Button b = new Button();
-
-            b.Text = pointLoadButtons.Count + ") Point Load";
-            b.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            b.AutoSize = true;
-            b.Font = new Font("Segoe UI", 8);
-            b.FlatStyle = FlatStyle.Flat;
-            b.FlatAppearance.BorderSize = 0;
-            b.Click += pointLoadButtons_Click;
-            b.BackColor = Color.FromArgb(red, green, blue);
-            b.ForeColor = Color.FromArgb(255 - red, 255 - green, 255 - blue);
-            b.Margin = new Padding(0, 0, 0, 0);
-
-            pointLoadButtons.Add(b);
-
-            // taking the different values of the point load from the user
-
-            pointLoadValues.Add(new PointLoadValue(0, 0));
-
-            SetLoadsList();
+            // taking the different values of the udl from the user
+            PointLoadInfoForm pointLoadInfoForm = new PointLoadInfoForm(barLength, a);
+            pointLoadInfoForm.Visible = true;
+            pointLoadInfoForm.FormClosed += pointLoadInfoFormClosed;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -192,6 +181,12 @@ namespace Mechanical1stYearProject
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
+            // bar length text box will remain inactive when ever another window is open
+            if (udlBeingCreated || pointLoadBeingCreated || infoWindowOpened)
+            {
+                return;
+            }
+
             if (textBox1.Text == "")
             {
                 textBox1.Text = "0.0";
@@ -330,6 +325,31 @@ namespace Mechanical1stYearProject
             SetLoadsList();
 
             udlBeingCreated = false;
+        }
+
+        private void pointLoadInfoFormClosed(object sender, FormClosedEventArgs e)
+        {
+            int red = r.Next(256), green = r.Next(256), blue = r.Next(256);
+
+            Button b = new Button();
+
+            b.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            b.AutoSize = true;
+            b.Font = new Font("Segoe UI", 8);
+            b.FlatStyle = FlatStyle.Flat;
+            b.FlatAppearance.BorderSize = 0;
+            b.Click += pointLoadButtons_Click;
+            b.BackColor = Color.FromArgb(red, green, blue);
+            b.ForeColor = Color.FromArgb(255 - red, 255 - green, 255 - blue);
+            b.Margin = new Padding(0, 0, 0, 0);
+            b.Text = a[0] + "N at " + a[1] + "m";
+
+            pointLoadButtons.Add(b);
+
+            pointLoadValues.Add(new PointLoadValue(a[1], a[0]));
+            SetLoadsList();
+
+            pointLoadBeingCreated = false;
         }
     }
 }
