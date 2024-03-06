@@ -288,6 +288,10 @@ namespace Mechanical1stYearProject
 
         private void infoButton_Click(object sender, EventArgs e)
         {
+            if(udlBeingCreated || pointLoadBeingCreated || infoWindowOpened)
+            {
+                return;
+            }
             LoadsList.Visible = false;
             InfoForm form = new InfoForm();
             form.Visible = true;
