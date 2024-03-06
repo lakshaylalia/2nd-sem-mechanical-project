@@ -14,15 +14,20 @@ namespace Mechanical1stYearProject
         List<PointLoadValue> pointLoadValues;
         Label udlLabel, pointLoadLabel;
 
-        float barLength = 1.0f;
+        float barLength = 10.0f;
+        float stepLength; // stores barlength / numberOfSteps
+        float m; // this is a multiplier which is used to convert length to array index
         float rfA, rfB; // reaction forces at the two ends of the bar
 
-        float[] fd; // force diagram
-        float[] bmd; // bending moment diagram
-        float[] sfd; // sheer force diagram
         float[] a; // this is used to make the udl and point forces
 
-        int numberOfSteps = 1000;
+        double[] fd; // force diagram
+        double[] bmd; // bending moment diagram
+        double[] sfd; // sheer force diagram
+        double[] xAxis; // is used to store the x axes values of the points displayed
+        double[] zeros; // used to shade the graphs
+
+        int numberOfSteps = 500;
 
         public class UdlValue
         {
@@ -62,21 +67,23 @@ namespace Mechanical1stYearProject
 
         public Form1()
         {
+            InitializeComponent();
+
             pointLoadButtons = new List<Button>();
             udlButtons = new List<Button>();
 
             pointLoadValues = new List<PointLoadValue>();
             udlValues = new List<UdlValue>();
 
-            fd = new float[numberOfSteps];
-            bmd = new float[numberOfSteps];
-            sfd = new float[numberOfSteps];
+            fd = new double[numberOfSteps];
+            bmd = new double[numberOfSteps];
+            sfd = new double[numberOfSteps];
 
             Button addUdl = new Button(),
                 addPointLoad = new Button();
 
             addUdl.Text = "Add UDL";
-            addPointLoad.Text = "Add point force";
+            addPointLoad.Text = "Add point load";
 
             addUdl.TextAlign = ContentAlignment.MiddleCenter;
             addPointLoad.TextAlign = ContentAlignment.MiddleCenter;
@@ -116,7 +123,16 @@ namespace Mechanical1stYearProject
             udlLabel.Dock = DockStyle.Left;
             pointLoadLabel.Dock = DockStyle.Left;
 
-            InitializeComponent();
+            stepLength = barLength / numberOfSteps;
+            m = barLength / (numberOfSteps - 1);
+
+            xAxis = new double[numberOfSteps];
+            zeros = new double[numberOfSteps];
+
+            for (int i = 0; i < numberOfSteps; i++)
+            {
+                xAxis[i] = i * m;
+            }
         }
 
         private void addUdl_Click(object sender, EventArgs e)
@@ -189,12 +205,18 @@ namespace Mechanical1stYearProject
 
             if (textBox1.Text == "")
             {
-                textBox1.Text = "0.0";
                 barLength = 0.0f;
+                return;
             }
             try
             {
                 barLength = float.Parse(textBox1.Text);
+                stepLength = barLength / numberOfSteps;
+                m = barLength / (numberOfSteps - 1);
+                for (int i = 0; i < numberOfSteps; i++)
+                {
+                    xAxis[i] = i * m;
+                }
             }
             catch (Exception ex)
             {
@@ -202,58 +224,63 @@ namespace Mechanical1stYearProject
             }
         }
 
-        private void updateDiagrams()
+        private void UpdateGraphs()
         {
-            // finding the reaction force rfA
+            // finding the reaction forces
+            rfB = 0.0f;
             rfA = 0.0f;
+
             foreach (PointLoadValue p in pointLoadValues)
             {
-                rfA += p.point * p.load;
+                rfB += p.point * p.load;
+                rfA += (barLength - p.point) * p.load;
             }
 
             foreach (UdlValue u in udlValues)
             {
-                rfA += u.udl * (u.end - u.start) * (u.end + u.start) / 2;
-            }
-
-            rfA = rfA / barLength;
-
-            // finding the reaction force rfB
-            foreach (PointLoadValue p in pointLoadValues)
-            {
-                rfB += (barLength - p.point) * p.load;
-            }
-
-            foreach (UdlValue u in udlValues)
-            {
-                rfB += u.udl * (u.end - u.start) * (barLength - ((u.end + u.start) / 2));
+                rfB += u.udl * (u.end - u.start) * (u.end + u.start) / 2;
+                rfA += u.udl * (u.end - u.start) * (barLength - ((u.end + u.start) / 2));
             }
 
             rfB = rfB / barLength;
+            rfA = rfA / barLength;
+
+            // setting all the graphs to 0
+            for(int i = 0; i < numberOfSteps; i++)
+            {
+                fd[i] = 0;
+                sfd[i] = 0;
+                bmd[i] = 0;
+            }
+
 
             // updating the fd here
+            // adding the reaction forces
+            fd[0] += rfA;
+            fd[numberOfSteps - 1] += rfB;
+
             // first adding all the point loads
             foreach (PointLoadValue p in pointLoadValues)
             {
-                fd[(int)Math.Round(p.point * numberOfSteps / barLength)] += p.point;
+                fd[(int)Math.Round(p.point / m)] -= p.load;
             }
 
             // now adding all the udls
             foreach (UdlValue u in udlValues)
             {
-                int istart = (int)Math.Round(u.start * numberOfSteps / barLength);
-                int iend = (int)Math.Round(u.end * numberOfSteps / barLength);
+                int istart = (int)Math.Round(u.start / m);
+                int iend = (int)Math.Round(u.end / m);
 
                 float f = ((u.end - u.start) * u.udl) / (iend - istart);
 
-                for (int i = istart; i < iend; i++)
+                for (int i = istart; i <= iend; i++)
                 {
-                    fd[i] += f;
+                    fd[i] -= f;
                 }
             }
 
             // updating the sfd here
-            sfd[0] = fd[0];
+            sfd[0] = rfA;
 
             for (int i = 1; i < numberOfSteps; i++)
             {
@@ -264,8 +291,11 @@ namespace Mechanical1stYearProject
             bmd[0] = 0;
             for (int i = 1; i < numberOfSteps; i++)
             {
-                bmd[i] = bmd[i - 1] + ((i * barLength / (float)numberOfSteps) * fd[i]);
+                bmd[i] = bmd[i - 1] + sfd[i - 1] * stepLength;
             }
+
+            // this is done so that the last point looks more continuous
+            sfd[numberOfSteps - 1] = sfd[numberOfSteps - 2];
         }
 
         // this function is called whenever a udl button is clicked
@@ -275,6 +305,8 @@ namespace Mechanical1stYearProject
             udlValues.RemoveAt(udlButtons.IndexOf(b));
             udlButtons.Remove(b);
             SetLoadsList();
+            UpdateGraphs();
+            DisplayGraphs();
         }
 
         // this function is called whenever a point load button is clicked
@@ -284,17 +316,41 @@ namespace Mechanical1stYearProject
             pointLoadValues.RemoveAt(pointLoadButtons.IndexOf(b));
             pointLoadButtons.Remove(b);
             SetLoadsList();
+            UpdateGraphs();
+            DisplayGraphs();
         }
 
         private void infoButton_Click(object sender, EventArgs e)
         {
-            if(udlBeingCreated || pointLoadBeingCreated || infoWindowOpened)
+            if (udlBeingCreated || pointLoadBeingCreated || infoWindowOpened)
             {
                 return;
             }
             LoadsList.Visible = false;
             InfoForm form = new InfoForm();
             form.Visible = true;
+        }
+
+        // diplays all the graphs
+        private void DisplayGraphs()
+        {
+            bmdGraph.Reset();
+            sfdGraph.Reset();
+
+            var bmdFill = bmdGraph.Plot.Add.FillY(xAxis, bmd, zeros);
+            var sfdFill = sfdGraph.Plot.Add.FillY(xAxis, sfd, zeros);
+
+            bmdFill.MarkerStyle.Size = 0;
+            sfdFill.MarkerStyle.Size = 0;
+
+            sfdGraph.Plot.Axes.AutoScale();
+            bmdGraph.Plot.Axes.AutoScale();
+
+            sfdFill.FillStyle.Color = new ScottPlot.Color(71, 105, 186);
+            bmdFill.FillStyle.Color = new ScottPlot.Color(71, 105, 186);
+
+            bmdGraph.Refresh();
+            sfdGraph.Refresh();
         }
 
         private void udlInfoFormClosed(object sender, FormClosedEventArgs e)
@@ -319,6 +375,9 @@ namespace Mechanical1stYearProject
             SetLoadsList();
 
             udlBeingCreated = false;
+
+            UpdateGraphs();
+            DisplayGraphs();
         }
 
         private void pointLoadInfoFormClosed(object sender, FormClosedEventArgs e)
@@ -343,6 +402,8 @@ namespace Mechanical1stYearProject
             SetLoadsList();
 
             pointLoadBeingCreated = false;
+            UpdateGraphs();
+            DisplayGraphs();
         }
     }
 }

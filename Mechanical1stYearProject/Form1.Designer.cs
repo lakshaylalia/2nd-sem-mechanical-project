@@ -31,15 +31,12 @@
             tableLayoutPanel1 = new TableLayoutPanel();
             panel2 = new Panel();
             LoadsList = new TableLayoutPanel();
-            panel5 = new Panel();
-            label1 = new Label();
+            formsPlot1 = new ScottPlot.WinForms.FormsPlot();
             tableLayoutPanel2 = new TableLayoutPanel();
             panel3 = new Panel();
-            panel6 = new Panel();
-            label2 = new Label();
+            sfdGraph = new ScottPlot.WinForms.FormsPlot();
             panel4 = new Panel();
-            panel7 = new Panel();
-            label3 = new Label();
+            bmdGraph = new ScottPlot.WinForms.FormsPlot();
             panel1.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
             panel2.SuspendLayout();
@@ -76,7 +73,7 @@
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(90, 27);
             textBox1.TabIndex = 4;
-            textBox1.Text = "1.0";
+            textBox1.Text = "10.0";
             textBox1.TextChanged += textBox1_TextChanged;
             // 
             // label4
@@ -135,8 +132,7 @@
             // panel2
             // 
             panel2.Controls.Add(LoadsList);
-            panel2.Controls.Add(panel5);
-            panel2.Controls.Add(label1);
+            panel2.Controls.Add(formsPlot1);
             panel2.Dock = DockStyle.Fill;
             panel2.Location = new Point(3, 3);
             panel2.Name = "panel2";
@@ -159,25 +155,14 @@
             LoadsList.TabIndex = 0;
             LoadsList.Visible = false;
             // 
-            // panel5
+            // formsPlot1
             // 
-            panel5.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            panel5.BackColor = SystemColors.Control;
-            panel5.Location = new Point(-3, 23);
-            panel5.Name = "panel5";
-            panel5.Size = new Size(879, 274);
-            panel5.TabIndex = 1;
-            // 
-            // label1
-            // 
-            label1.Anchor = AnchorStyles.Top;
-            label1.AutoSize = true;
-            label1.Location = new Point(341, 0);
-            label1.Name = "label1";
-            label1.Size = new Size(196, 20);
-            label1.TabIndex = 0;
-            label1.Text = "Diagram of all forces on bar";
-            label1.TextAlign = ContentAlignment.MiddleCenter;
+            formsPlot1.DisplayScale = 1.25F;
+            formsPlot1.Dock = DockStyle.Fill;
+            formsPlot1.Location = new Point(0, 0);
+            formsPlot1.Name = "formsPlot1";
+            formsPlot1.Size = new Size(876, 297);
+            formsPlot1.TabIndex = 1;
             // 
             // tableLayoutPanel2
             // 
@@ -196,59 +181,40 @@
             // 
             // panel3
             // 
-            panel3.Controls.Add(panel6);
-            panel3.Controls.Add(label2);
+            panel3.Controls.Add(sfdGraph);
             panel3.Dock = DockStyle.Fill;
             panel3.Location = new Point(3, 3);
             panel3.Name = "panel3";
             panel3.Size = new Size(432, 291);
             panel3.TabIndex = 0;
             // 
-            // panel6
+            // sfdGraph
             // 
-            panel6.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            panel6.Location = new Point(-6, 23);
-            panel6.Name = "panel6";
-            panel6.Size = new Size(438, 274);
-            panel6.TabIndex = 1;
-            // 
-            // label2
-            // 
-            label2.Anchor = AnchorStyles.Top;
-            label2.AutoSize = true;
-            label2.Location = new Point(184, 0);
-            label2.Name = "label2";
-            label2.Size = new Size(144, 20);
-            label2.TabIndex = 0;
-            label2.Text = "Sheer force diagram";
+            sfdGraph.DisplayScale = 1.25F;
+            sfdGraph.Dock = DockStyle.Fill;
+            sfdGraph.Location = new Point(0, 0);
+            sfdGraph.Name = "sfdGraph";
+            sfdGraph.Size = new Size(432, 291);
+            sfdGraph.TabIndex = 0;
+            sfdGraph.Tag = "";
             // 
             // panel4
             // 
-            panel4.Controls.Add(panel7);
-            panel4.Controls.Add(label3);
+            panel4.Controls.Add(bmdGraph);
             panel4.Dock = DockStyle.Fill;
             panel4.Location = new Point(441, 3);
             panel4.Name = "panel4";
             panel4.Size = new Size(432, 291);
             panel4.TabIndex = 1;
             // 
-            // panel7
+            // bmdGraph
             // 
-            panel7.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            panel7.Location = new Point(0, 23);
-            panel7.Name = "panel7";
-            panel7.Size = new Size(438, 274);
-            panel7.TabIndex = 1;
-            // 
-            // label3
-            // 
-            label3.Anchor = AnchorStyles.Top;
-            label3.AutoSize = true;
-            label3.Location = new Point(184, 0);
-            label3.Name = "label3";
-            label3.Size = new Size(186, 20);
-            label3.TabIndex = 0;
-            label3.Text = "Bending Moment Diagram";
+            bmdGraph.DisplayScale = 1.25F;
+            bmdGraph.Dock = DockStyle.Fill;
+            bmdGraph.Location = new Point(0, 0);
+            bmdGraph.Name = "bmdGraph";
+            bmdGraph.Size = new Size(432, 291);
+            bmdGraph.TabIndex = 0;
             // 
             // Form1
             // 
@@ -268,9 +234,7 @@
             panel2.PerformLayout();
             tableLayoutPanel2.ResumeLayout(false);
             panel3.ResumeLayout(false);
-            panel3.PerformLayout();
             panel4.ResumeLayout(false);
-            panel4.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -284,15 +248,12 @@
         private Panel panel3;
         private Panel panel4;
         private Panel panel2;
-        private Label label1;
-        private Label label2;
-        private Label label3;
-        private Panel panel5;
-        private Panel panel6;
-        private Panel panel7;
         private TableLayoutPanel LoadsList;
         private TextBox textBox1;
         private Label label4;
         private Label label5;
+        private ScottPlot.WinForms.FormsPlot formsPlot1;
+        private ScottPlot.WinForms.FormsPlot sfdGraph;
+        private ScottPlot.WinForms.FormsPlot bmdGraph;
     }
 }

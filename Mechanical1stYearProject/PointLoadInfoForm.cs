@@ -28,8 +28,8 @@ namespace Mechanical1stYearProject
         {
             if (loadTextBox.Text == "")
             {
-                loadTextBox.Text = "0.0";
                 load = 0.0f;
+                return;
             }
             try
             {
@@ -45,8 +45,8 @@ namespace Mechanical1stYearProject
         {
             if (locationTextBox.Text == "")
             {
-                locationTextBox.Text = "0.0";
                 position = 0.0f;
+                return;
             }
             try
             {

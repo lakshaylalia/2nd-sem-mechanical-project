@@ -75,7 +75,6 @@
             label3.Size = new Size(49, 20);
             label3.TabIndex = 3;
             label3.Text = "Start:-";
-            label3.Click += label3_Click;
             // 
             // startTextBox
             // 

@@ -28,17 +28,12 @@ namespace Mechanical1stYearProject
             this.udlValues = udlValues;
         }
 
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void udlTextBox_TextChanged(object sender, EventArgs e)
         {
             if (udlTextBox.Text == "")
             {
-                udlTextBox.Text = "0.0";
                 udl = 0.0f;
+                return;
             }
             try
             {
@@ -54,8 +49,8 @@ namespace Mechanical1stYearProject
         {
             if (startTextBox.Text == "")
             {
-                startTextBox.Text = "0.0";
                 start = 0.0f;
+                return;
             }
             try
             {
@@ -64,22 +59,13 @@ namespace Mechanical1stYearProject
                 if (start < 0.0f)
                 {
                     start = 0.0f;
-                    startTextBox.Text = Convert.ToString(start);
                 }
                 else if (start > barLength)
                 {
                     start = barLength;
-                    startTextBox.Text = Convert.ToString(start);
                 }
-
-                if (start > end)
-                {
-                    float h = start;
-                    start = end;
-                    end = h;
-                    endTextBox.Text = Convert.ToString(end);
-                    startTextBox.Text = Convert.ToString(start);
-                }
+                
+                startTextBox.Text = Convert.ToString(start);
             }
             catch (Exception ex)
             {
@@ -91,7 +77,6 @@ namespace Mechanical1stYearProject
         {
             if (endTextBox.Text == "")
             {
-                endTextBox.Text = "0.0";
                 end = 0.0f;
             }
             try
@@ -101,22 +86,12 @@ namespace Mechanical1stYearProject
                 if (end < 0.0f)
                 {
                     end = 0.0f;
-                    endTextBox.Text = Convert.ToString(end);
                 }
                 else if (end > barLength)
                 {
                     end = barLength;
-                    endTextBox.Text = Convert.ToString(end);
                 }
-
-                if (start > end)
-                {
-                    float h = start;
-                    start = end;
-                    end = h;
-                    startTextBox.Text = Convert.ToString(start);
-                    endTextBox.Text = Convert.ToString(end);
-                }
+                endTextBox.Text = Convert.ToString(end);
             }
             catch (Exception ex)
             {
@@ -135,8 +110,8 @@ namespace Mechanical1stYearProject
         private void UdlInfoForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             udlValues[0] = udl;
-            udlValues[1] = start;
-            udlValues[2] = end;
+            udlValues[1] = Math.Min(start, end);
+            udlValues[2] = Math.Max(start, end);
         }
     }
 }

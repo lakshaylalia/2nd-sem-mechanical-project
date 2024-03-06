@@ -77,9 +77,9 @@
             label3.AutoSize = true;
             label3.Location = new Point(249, 9);
             label3.Name = "label3";
-            label3.Size = new Size(22, 20);
+            label3.Size = new Size(20, 20);
             label3.TabIndex = 4;
-            label3.Text = "m";
+            label3.Text = "N";
             // 
             // label4
             // 
