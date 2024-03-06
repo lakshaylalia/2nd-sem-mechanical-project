@@ -184,7 +184,7 @@ namespace Mechanical1stYearProject
             // bar length text box will remain inactive when ever another window is open
             if (udlBeingCreated || pointLoadBeingCreated || infoWindowOpened)
             {
-                return;
+                textBox1.Text = Convert.ToString(barLength);
             }
 
             if (textBox1.Text == "")
@@ -286,18 +286,9 @@ namespace Mechanical1stYearProject
             SetLoadsList();
         }
 
-        private void tableLayoutPanel2_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void infoButton_Click(object sender, EventArgs e)
         {
+            LoadsList.Visible = false;
             InfoForm form = new InfoForm();
             form.Visible = true;
         }
@@ -310,14 +301,13 @@ namespace Mechanical1stYearProject
 
             b.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             b.AutoSize = true;
-            b.Font = new Font("Segoe UI", 8);
             b.FlatStyle = FlatStyle.Flat;
             b.FlatAppearance.BorderSize = 0;
             b.Click += udlButtons_Click;
             b.BackColor = Color.FromArgb(red, green, blue);
             b.ForeColor = Color.FromArgb(255 - red, 255 - green, 255 - blue);
             b.Margin = new Padding(0, 0, 0, 0);
-            b.Text = a[0] + "N/m, " + a[1] + "m to " + a[2] + "m";
+            b.Text = a[0] + "N/m from " + a[1] + "m to " + a[2] + "m";
 
             udlButtons.Add(b);
 
@@ -335,7 +325,6 @@ namespace Mechanical1stYearProject
 
             b.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             b.AutoSize = true;
-            b.Font = new Font("Segoe UI", 8);
             b.FlatStyle = FlatStyle.Flat;
             b.FlatAppearance.BorderSize = 0;
             b.Click += pointLoadButtons_Click;

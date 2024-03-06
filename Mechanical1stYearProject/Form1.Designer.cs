@@ -58,7 +58,7 @@
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(982, 47);
+            panel1.Size = new Size(882, 47);
             panel1.TabIndex = 0;
             // 
             // label5
@@ -95,7 +95,7 @@
             infoButton.Dock = DockStyle.Right;
             infoButton.FlatAppearance.BorderSize = 0;
             infoButton.FlatStyle = FlatStyle.Flat;
-            infoButton.Location = new Point(888, 0);
+            infoButton.Location = new Point(788, 0);
             infoButton.Name = "infoButton";
             infoButton.Size = new Size(94, 47);
             infoButton.TabIndex = 2;
@@ -129,7 +129,7 @@
             tableLayoutPanel1.RowCount = 2;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.Size = new Size(982, 506);
+            tableLayoutPanel1.Size = new Size(882, 606);
             tableLayoutPanel1.TabIndex = 1;
             // 
             // panel2
@@ -140,7 +140,7 @@
             panel2.Dock = DockStyle.Fill;
             panel2.Location = new Point(3, 3);
             panel2.Name = "panel2";
-            panel2.Size = new Size(976, 247);
+            panel2.Size = new Size(876, 297);
             panel2.TabIndex = 1;
             // 
             // LoadsList
@@ -150,7 +150,8 @@
             LoadsList.BackColor = SystemColors.ActiveBorder;
             LoadsList.ColumnCount = 1;
             LoadsList.ColumnStyles.Add(new ColumnStyle());
-            LoadsList.Location = new Point(0, 0);
+            LoadsList.Location = new Point(1, 0);
+            LoadsList.Margin = new Padding(0);
             LoadsList.Name = "LoadsList";
             LoadsList.RowCount = 1;
             LoadsList.RowStyles.Add(new RowStyle());
@@ -164,14 +165,14 @@
             panel5.BackColor = SystemColors.Control;
             panel5.Location = new Point(-3, 23);
             panel5.Name = "panel5";
-            panel5.Size = new Size(979, 224);
+            panel5.Size = new Size(879, 274);
             panel5.TabIndex = 1;
             // 
             // label1
             // 
             label1.Anchor = AnchorStyles.Top;
             label1.AutoSize = true;
-            label1.Location = new Point(391, 0);
+            label1.Location = new Point(341, 0);
             label1.Name = "label1";
             label1.Size = new Size(196, 20);
             label1.TabIndex = 0;
@@ -186,13 +187,12 @@
             tableLayoutPanel2.Controls.Add(panel3, 0, 0);
             tableLayoutPanel2.Controls.Add(panel4, 1, 0);
             tableLayoutPanel2.Dock = DockStyle.Fill;
-            tableLayoutPanel2.Location = new Point(3, 256);
+            tableLayoutPanel2.Location = new Point(3, 306);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
             tableLayoutPanel2.RowCount = 1;
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel2.Size = new Size(976, 247);
+            tableLayoutPanel2.Size = new Size(876, 297);
             tableLayoutPanel2.TabIndex = 0;
-            tableLayoutPanel2.Paint += tableLayoutPanel2_Paint;
             // 
             // panel3
             // 
@@ -201,7 +201,7 @@
             panel3.Dock = DockStyle.Fill;
             panel3.Location = new Point(3, 3);
             panel3.Name = "panel3";
-            panel3.Size = new Size(482, 241);
+            panel3.Size = new Size(432, 291);
             panel3.TabIndex = 0;
             // 
             // panel6
@@ -209,14 +209,14 @@
             panel6.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             panel6.Location = new Point(-6, 23);
             panel6.Name = "panel6";
-            panel6.Size = new Size(488, 224);
+            panel6.Size = new Size(438, 274);
             panel6.TabIndex = 1;
             // 
             // label2
             // 
             label2.Anchor = AnchorStyles.Top;
             label2.AutoSize = true;
-            label2.Location = new Point(209, 0);
+            label2.Location = new Point(184, 0);
             label2.Name = "label2";
             label2.Size = new Size(144, 20);
             label2.TabIndex = 0;
@@ -227,9 +227,9 @@
             panel4.Controls.Add(panel7);
             panel4.Controls.Add(label3);
             panel4.Dock = DockStyle.Fill;
-            panel4.Location = new Point(491, 3);
+            panel4.Location = new Point(441, 3);
             panel4.Name = "panel4";
-            panel4.Size = new Size(482, 241);
+            panel4.Size = new Size(432, 291);
             panel4.TabIndex = 1;
             // 
             // panel7
@@ -237,14 +237,14 @@
             panel7.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             panel7.Location = new Point(0, 23);
             panel7.Name = "panel7";
-            panel7.Size = new Size(488, 224);
+            panel7.Size = new Size(438, 274);
             panel7.TabIndex = 1;
             // 
             // label3
             // 
             label3.Anchor = AnchorStyles.Top;
             label3.AutoSize = true;
-            label3.Location = new Point(209, 0);
+            label3.Location = new Point(184, 0);
             label3.Name = "label3";
             label3.Size = new Size(186, 20);
             label3.TabIndex = 0;
@@ -254,11 +254,11 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(982, 553);
+            ClientSize = new Size(882, 653);
             Controls.Add(tableLayoutPanel1);
             Controls.Add(panel1);
             Icon = (Icon)resources.GetObject("$this.Icon");
-            MinimumSize = new Size(1000, 600);
+            MinimumSize = new Size(900, 700);
             Name = "Form1";
             Text = "SFD, BMD maker";
             panel1.ResumeLayout(false);
