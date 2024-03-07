@@ -1,3 +1,4 @@
+using ScottPlot;
 using System.Net.Mail;
 
 namespace Mechanical1stYearProject
@@ -12,7 +13,7 @@ namespace Mechanical1stYearProject
         List<Button> pointLoadButtons, udlButtons;
         List<UdlValue> udlValues;
         List<PointLoadValue> pointLoadValues;
-        Label udlLabel, pointLoadLabel;
+        System.Windows.Forms.Label udlLabel, pointLoadLabel;
 
         float barLength = 10.0f;
         float stepLength; // stores barlength / numberOfSteps
@@ -27,8 +28,12 @@ namespace Mechanical1stYearProject
         double[] xAxis; // is used to store the x axes values of the points displayed
         double[] zeros; // used to shade the graphs
 
-        int numberOfSteps = 500;
+        int numberOfSteps = 10000;
 
+        /// <summary>
+        /// this class stores some of the characteristics of a udl 
+        /// like start, end and the value of the udl itself
+        /// </summary>
         public class UdlValue
         {
             public UdlValue(float start, float end, float udl)
@@ -48,6 +53,10 @@ namespace Mechanical1stYearProject
             public float start, end, udl;
         }
 
+        /// <summary>
+        /// this class stores some of the characteristics of a point load like the
+        /// point where the point load is applied and the value of the point load itself
+        /// </summary>
         public class PointLoadValue
         {
             public PointLoadValue(float point, float load)
@@ -111,8 +120,8 @@ namespace Mechanical1stYearProject
             udlButtons.Add(addUdl);
             udlValues.Add(new UdlValue());
 
-            udlLabel = new Label();
-            pointLoadLabel = new Label();
+            udlLabel = new System.Windows.Forms.Label();
+            pointLoadLabel = new System.Windows.Forms.Label();
 
             udlLabel.Text = "UDLs:-";
             pointLoadLabel.Text = "Point Loads:-";
@@ -201,6 +210,7 @@ namespace Mechanical1stYearProject
             if (udlBeingCreated || pointLoadBeingCreated || infoWindowOpened)
             {
                 textBox1.Text = Convert.ToString(barLength);
+                textBox1.Select(textBox1.Text.Length, 0);
             }
 
             if (textBox1.Text == "")
@@ -221,6 +231,7 @@ namespace Mechanical1stYearProject
             catch (Exception ex)
             {
                 textBox1.Text = Convert.ToString(barLength);
+                textBox1.Select(textBox1.Text.Length, 0);
             }
         }
 
@@ -279,18 +290,13 @@ namespace Mechanical1stYearProject
                 }
             }
 
-            // updating the sfd here
+            // updating the sfd and bmd here
             sfd[0] = rfA;
+            bmd[0] = 0;
 
             for (int i = 1; i < numberOfSteps; i++)
             {
                 sfd[i] = sfd[i - 1] + fd[i];
-            }
-
-            // updating the bmd here
-            bmd[0] = 0;
-            for (int i = 1; i < numberOfSteps; i++)
-            {
                 bmd[i] = bmd[i - 1] + sfd[i - 1] * stepLength;
             }
 
@@ -336,6 +342,47 @@ namespace Mechanical1stYearProject
         {
             bmdGraph.Reset();
             sfdGraph.Reset();
+            loadsGraph.Reset();
+
+            // displaying the load graph
+            // adding a rectangle for the bar
+            var rect = loadsGraph.Plot.Add.Rectangle(0, barLength, -barLength / 20, barLength / 20);
+            rect.FillStyle.Color = new ScottPlot.Color(0, 0, 0, 255);
+
+            // adding rectangles for all the udls
+            ScottPlot.Plottables.Rectangle[] udlRects = new ScottPlot.Plottables.Rectangle[udlValues.Count];
+            for(int i = 1; i < udlValues.Count; i++)
+            {
+                udlRects[i] = loadsGraph.Plot.Add.Rectangle(udlValues[i].start, 
+                    udlValues[i].end, barLength / 16, barLength / 10);
+                udlRects[i].FillStyle.Color = new ScottPlot.Color(udlButtons[i].BackColor.R,
+                    udlButtons[i].BackColor.G, udlButtons[i].BackColor.B, 100);
+                //udlRects[i].LineStyle.Color = new ScottPlot.Color(0, 0)
+            }
+
+            // adding arrows for point loads
+            ScottPlot.Plottables.Arrow[] plArrows = new ScottPlot.Plottables.Arrow[pointLoadValues.Count];
+            for (int i = 1; i < pointLoadValues.Count; i++)
+            {
+                plArrows[i] = loadsGraph.Plot.Add.Arrow(pointLoadValues[i].point, barLength / 3, 
+                    pointLoadValues[i].point, barLength / 10);
+                plArrows[i].Color = new ScottPlot.Color(pointLoadButtons[i].BackColor.R,
+                    pointLoadButtons[i].BackColor.G, pointLoadButtons[i].BackColor.B, 255);
+            }
+
+            // adding arrows for reaction forces
+            var rfaArrow = loadsGraph.Plot.Add.Arrow(0, -barLength / 3,
+                    0, -barLength / 20);
+            var rfbArrow = loadsGraph.Plot.Add.Arrow(barLength, -barLength / 3,
+                    barLength, -barLength / 20);
+            rfaArrow.Color = new ScottPlot.Color(150, 0, 0);
+            rfbArrow.Color = new ScottPlot.Color(150, 0, 0);
+
+            // adding an invisible arrow to keep the scaling of the chart good
+            var invisibleArrow = loadsGraph.Plot.Add.Arrow(0, barLength / 3, 0, barLength / 10);
+            invisibleArrow.Color = new ScottPlot.Color(0, 0, 0, 0);
+
+            // displaying the sfd and bmd graphs
 
             var bmdFill = bmdGraph.Plot.Add.FillY(xAxis, bmd, zeros);
             var sfdFill = sfdGraph.Plot.Add.FillY(xAxis, sfd, zeros);
@@ -343,14 +390,17 @@ namespace Mechanical1stYearProject
             bmdFill.MarkerStyle.Size = 0;
             sfdFill.MarkerStyle.Size = 0;
 
+            // this makes the 3 graphs scale automatically
             sfdGraph.Plot.Axes.AutoScale();
             bmdGraph.Plot.Axes.AutoScale();
+            loadsGraph.Plot.Axes.AutoScale();
 
-            sfdFill.FillStyle.Color = new ScottPlot.Color(71, 105, 186);
-            bmdFill.FillStyle.Color = new ScottPlot.Color(71, 105, 186);
+            sfdFill.FillStyle.Color = new ScottPlot.Color(71, 105, 186, 150);
+            bmdFill.FillStyle.Color = new ScottPlot.Color(71, 105, 186, 150);
 
             bmdGraph.Refresh();
             sfdGraph.Refresh();
+            loadsGraph.Refresh();
         }
 
         private void udlInfoFormClosed(object sender, FormClosedEventArgs e)
@@ -364,8 +414,8 @@ namespace Mechanical1stYearProject
             b.FlatStyle = FlatStyle.Flat;
             b.FlatAppearance.BorderSize = 0;
             b.Click += udlButtons_Click;
-            b.BackColor = Color.FromArgb(red, green, blue);
-            b.ForeColor = Color.FromArgb(255 - red, 255 - green, 255 - blue);
+            b.BackColor = System.Drawing.Color.FromArgb(red, green, blue);
+            b.ForeColor = System.Drawing.Color.FromArgb(255 - red, 255 - green, 255 - blue);
             b.Margin = new Padding(0, 0, 0, 0);
             b.Text = a[0] + "N/m from " + a[1] + "m to " + a[2] + "m";
 
@@ -391,14 +441,14 @@ namespace Mechanical1stYearProject
             b.FlatStyle = FlatStyle.Flat;
             b.FlatAppearance.BorderSize = 0;
             b.Click += pointLoadButtons_Click;
-            b.BackColor = Color.FromArgb(red, green, blue);
-            b.ForeColor = Color.FromArgb(255 - red, 255 - green, 255 - blue);
+            b.BackColor = System.Drawing.Color.FromArgb(red, green, blue);
+            b.ForeColor = System.Drawing.Color.FromArgb(255 - red, 255 - green, 255 - blue);
             b.Margin = new Padding(0, 0, 0, 0);
             b.Text = a[0] + "N at " + a[1] + "m";
 
             pointLoadButtons.Add(b);
 
-            pointLoadValues.Add(new PointLoadValue(a[1], a[0]));
+            pointLoadValues.Add(new PointLoadValue(a[1] == 0.0f ? barLength / 10000.0f : a[1], a[0]));
             SetLoadsList();
 
             pointLoadBeingCreated = false;

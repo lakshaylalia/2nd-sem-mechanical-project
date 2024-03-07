@@ -31,7 +31,7 @@
             tableLayoutPanel1 = new TableLayoutPanel();
             panel2 = new Panel();
             LoadsList = new TableLayoutPanel();
-            formsPlot1 = new ScottPlot.WinForms.FormsPlot();
+            loadsGraph = new ScottPlot.WinForms.FormsPlot();
             tableLayoutPanel2 = new TableLayoutPanel();
             panel3 = new Panel();
             sfdGraph = new ScottPlot.WinForms.FormsPlot();
@@ -132,7 +132,7 @@
             // panel2
             // 
             panel2.Controls.Add(LoadsList);
-            panel2.Controls.Add(formsPlot1);
+            panel2.Controls.Add(loadsGraph);
             panel2.Dock = DockStyle.Fill;
             panel2.Location = new Point(3, 3);
             panel2.Name = "panel2";
@@ -155,14 +155,14 @@
             LoadsList.TabIndex = 0;
             LoadsList.Visible = false;
             // 
-            // formsPlot1
+            // loadsGraph
             // 
-            formsPlot1.DisplayScale = 1.25F;
-            formsPlot1.Dock = DockStyle.Fill;
-            formsPlot1.Location = new Point(0, 0);
-            formsPlot1.Name = "formsPlot1";
-            formsPlot1.Size = new Size(876, 297);
-            formsPlot1.TabIndex = 1;
+            loadsGraph.DisplayScale = 1.25F;
+            loadsGraph.Dock = DockStyle.Fill;
+            loadsGraph.Location = new Point(0, 0);
+            loadsGraph.Name = "loadsGraph";
+            loadsGraph.Size = new Size(876, 297);
+            loadsGraph.TabIndex = 1;
             // 
             // tableLayoutPanel2
             // 
@@ -252,7 +252,7 @@
         private TextBox textBox1;
         private Label label4;
         private Label label5;
-        private ScottPlot.WinForms.FormsPlot formsPlot1;
+        private ScottPlot.WinForms.FormsPlot loadsGraph;
         private ScottPlot.WinForms.FormsPlot sfdGraph;
         private ScottPlot.WinForms.FormsPlot bmdGraph;
     }

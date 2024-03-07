@@ -47,7 +47,11 @@ namespace Mechanical1stYearProject
 
         private void startTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (startTextBox.Text == "")
+            if (startTextBox.Text == ".")
+            {
+                startTextBox.Text = "0";
+            }
+            else if (startTextBox.Text == "")
             {
                 start = 0.0f;
                 return;
@@ -59,25 +63,40 @@ namespace Mechanical1stYearProject
                 if (start < 0.0f)
                 {
                     start = 0.0f;
+                    startTextBox.Text = Convert.ToString(start);
+                    startTextBox.Select(startTextBox.Text.Length, 0);
                 }
                 else if (start > barLength)
                 {
                     start = barLength;
+                    startTextBox.Text = Convert.ToString(start);
+                    // sets the cursor at the end
+                    startTextBox.Select(startTextBox.Text.Length, 0);
                 }
                 
-                startTextBox.Text = Convert.ToString(start);
+                if (!startTextBox.Text.Contains("."))
+                {
+                    startTextBox.Text += ".";
+                    startTextBox.Select(startTextBox.Text.Length, 0);
+                }
             }
             catch (Exception ex)
             {
                 startTextBox.Text = Convert.ToString(start);
+                startTextBox.Select(startTextBox.Text.Length, 0);
             }
         }
 
         private void endTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (endTextBox.Text == "")
+            if(endTextBox.Text == ".")
+            {
+                endTextBox.Text = "0";
+            }
+            else if (endTextBox.Text == "")
             {
                 end = 0.0f;
+                return;
             }
             try
             {
@@ -86,16 +105,27 @@ namespace Mechanical1stYearProject
                 if (end < 0.0f)
                 {
                     end = 0.0f;
+                    endTextBox.Text = Convert.ToString(end);
+                    endTextBox.Select(endTextBox.Text.Length, 0);
                 }
                 else if (end > barLength)
                 {
                     end = barLength;
+                    endTextBox.Text = Convert.ToString(end);
+                    // sets the cursor at the end
+                    endTextBox.Select(endTextBox.Text.Length, 0);
                 }
-                endTextBox.Text = Convert.ToString(end);
+
+                if (!endTextBox.Text.Contains("."))
+                {
+                    endTextBox.Text += ".";
+                    endTextBox.Select(endTextBox.Text.Length, 0);
+                }
             }
             catch (Exception ex)
             {
                 endTextBox.Text = Convert.ToString(end);
+                endTextBox.Select(endTextBox.Text.Length, 0);
             }
         }
 

@@ -43,7 +43,11 @@ namespace Mechanical1stYearProject
 
         private void locationTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (locationTextBox.Text == "")
+            if (locationTextBox.Text == ".")
+            {
+                locationTextBox.Text = "0";
+            }
+            else if (locationTextBox.Text == "")
             {
                 position = 0.0f;
                 return;
@@ -55,16 +59,19 @@ namespace Mechanical1stYearProject
                 {
                     position = barLength;
                     locationTextBox.Text = Convert.ToString(position);
+                    locationTextBox.Select(locationTextBox.Text.Length, 0);
                 }
                 else if(position < 0.0f)
                 {
                     position = 0.0f;
                     locationTextBox.Text = Convert.ToString(position);
+                    locationTextBox.Select(locationTextBox.Text.Length, 0);
                 }
             }
             catch (Exception ex)
             {
                 locationTextBox.Text = Convert.ToString(position);
+                locationTextBox.Select(locationTextBox.Text.Length, 0);
             }
         }
 
