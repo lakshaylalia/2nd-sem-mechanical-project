@@ -40,6 +40,9 @@
             label9 = new Label();
             label10 = new Label();
             github = new LinkLabel();
+            label11 = new Label();
+            pictureBox1 = new PictureBox();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -145,20 +148,45 @@
             // github
             // 
             github.AutoSize = true;
-            github.Location = new Point(421, 21);
+            github.Font = new Font("Segoe UI", 15F);
+            github.Location = new Point(421, 9);
             github.Name = "github";
-            github.Size = new Size(165, 20);
+            github.Size = new Size(276, 35);
             github.TabIndex = 10;
             github.TabStop = true;
             github.Text = "Goto Github Repository";
             github.LinkClicked += github_LinkClicked;
             // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Font = new Font("Segoe UI", 15F);
+            label11.Location = new Point(421, 44);
+            label11.Name = "label11";
+            label11.Size = new Size(128, 35);
+            label11.TabIndex = 11;
+            label11.Text = "Scan this:-";
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.BackColor = Color.White;
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.InitialImage = (Image)resources.GetObject("pictureBox1.InitialImage");
+            pictureBox1.Location = new Point(423, 82);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(250, 250);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.TabIndex = 12;
+            pictureBox1.TabStop = false;
+            // 
             // InfoForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(255, 224, 192);
-            ClientSize = new Size(800, 372);
+            BackColor = Color.White;
+            ClientSize = new Size(703, 372);
+            Controls.Add(pictureBox1);
+            Controls.Add(label11);
             Controls.Add(github);
             Controls.Add(label10);
             Controls.Add(label9);
@@ -175,6 +203,7 @@
             Name = "InfoForm";
             StartPosition = FormStartPosition.CenterParent;
             Text = "Info Window";
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -192,5 +221,7 @@
         private Label label9;
         private Label label10;
         private LinkLabel github;
+        private Label label11;
+        private PictureBox pictureBox1;
     }
 }

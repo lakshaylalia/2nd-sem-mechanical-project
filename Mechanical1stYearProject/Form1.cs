@@ -373,7 +373,7 @@ namespace Mechanical1stYearProject
 
             // adding a rectangle for the bar
             var rect = loadsGraph.Plot.Add.Rectangle(0, barLength, -barLength / 20, barLength / 20);
-            rect.FillStyle.Color = new ScottPlot.Color(0, 0, 0, 255);
+            rect.FillStyle.Color = new ScottPlot.Color(75, 75, 75, 255);
 
             // adding rectangles for all the udls
             ScottPlot.Plottables.Rectangle[] udlRects = new ScottPlot.Plottables.Rectangle[udlValues.Count];
