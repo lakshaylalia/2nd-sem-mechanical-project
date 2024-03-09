@@ -278,12 +278,9 @@ namespace Mechanical1stYearProject
             rfA = rfA / barLength;
 
             // setting all the graphs to 0
-            for(int i = 0; i < numberOfSteps; i++)
-            {
-                fd[i] = 0;
-                sfd[i] = 0;
-                bmd[i] = 0;
-            }
+            Array.Fill(fd, 0);
+            Array.Fill(sfd, 0);
+            Array.Fill(bmd, 0);
 
 
             // updating the fd here
@@ -312,7 +309,7 @@ namespace Mechanical1stYearProject
             }
 
             // updating the sfd and bmd here
-            sfd[0] = rfA;
+            sfd[0] = fd[0];
             bmd[0] = 0;
 
             for (int i = 1; i < numberOfSteps; i++)
@@ -488,7 +485,7 @@ namespace Mechanical1stYearProject
 
             pointLoadButtons.Add(b);
 
-            pointLoadValues.Add(new PointLoadValue(a[1] == 0.0f ? barLength / 10000.0f : a[1], a[0]));
+            pointLoadValues.Add(new PointLoadValue(a[1], a[0]));
             SetLoadsList();
 
             pointLoadBeingCreated = false;
