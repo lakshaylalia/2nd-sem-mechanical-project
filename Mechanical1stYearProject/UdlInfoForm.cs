@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Mechanical1stYearProject
 {
@@ -42,16 +43,13 @@ namespace Mechanical1stYearProject
             catch (Exception ex)
             {
                 udlTextBox.Text = Convert.ToString(udl);
+                udlTextBox.Select(udlTextBox.Text.Length, 0);
             }
         }
 
         private void startTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (startTextBox.Text == ".")
-            {
-                startTextBox.Text = "0";
-            }
-            else if (startTextBox.Text == "")
+            if (startTextBox.Text == "")
             {
                 start = 0.0f;
                 return;
@@ -59,26 +57,6 @@ namespace Mechanical1stYearProject
             try
             {
                 start = float.Parse(startTextBox.Text);
-
-                if (start < 0.0f)
-                {
-                    start = 0.0f;
-                    startTextBox.Text = Convert.ToString(start);
-                    startTextBox.Select(startTextBox.Text.Length, 0);
-                }
-                else if (start > barLength)
-                {
-                    start = barLength;
-                    startTextBox.Text = Convert.ToString(start);
-                    // sets the cursor at the end
-                    startTextBox.Select(startTextBox.Text.Length, 0);
-                }
-                
-                if (!startTextBox.Text.Contains("."))
-                {
-                    startTextBox.Text += ".";
-                    startTextBox.Select(startTextBox.Text.Length, 0);
-                }
             }
             catch (Exception ex)
             {
@@ -89,11 +67,7 @@ namespace Mechanical1stYearProject
 
         private void endTextBox_TextChanged(object sender, EventArgs e)
         {
-            if(endTextBox.Text == ".")
-            {
-                endTextBox.Text = "0";
-            }
-            else if (endTextBox.Text == "")
+            if (endTextBox.Text == "")
             {
                 end = 0.0f;
                 return;
@@ -101,26 +75,6 @@ namespace Mechanical1stYearProject
             try
             {
                 end = float.Parse(endTextBox.Text);
-
-                if (end < 0.0f)
-                {
-                    end = 0.0f;
-                    endTextBox.Text = Convert.ToString(end);
-                    endTextBox.Select(endTextBox.Text.Length, 0);
-                }
-                else if (end > barLength)
-                {
-                    end = barLength;
-                    endTextBox.Text = Convert.ToString(end);
-                    // sets the cursor at the end
-                    endTextBox.Select(endTextBox.Text.Length, 0);
-                }
-
-                if (!endTextBox.Text.Contains("."))
-                {
-                    endTextBox.Text += ".";
-                    endTextBox.Select(endTextBox.Text.Length, 0);
-                }
             }
             catch (Exception ex)
             {
@@ -132,16 +86,17 @@ namespace Mechanical1stYearProject
         private void doneButton_Click(object sender, EventArgs e)
         {
             udlValues[0] = udl;
-            udlValues[1] = start;
-            udlValues[2] = end;
+            udlValues[1] = Math.Clamp(Math.Min(start, end), 0, barLength);
+            udlValues[2] = Math.Clamp(Math.Max(start, end), 0, barLength);
+
             Close();
         }
 
         private void UdlInfoForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             udlValues[0] = udl;
-            udlValues[1] = Math.Min(start, end);
-            udlValues[2] = Math.Max(start, end);
+            udlValues[1] = Math.Clamp(Math.Min(start, end), 0, barLength);
+            udlValues[2] = Math.Clamp(Math.Max(start, end), 0, barLength);
         }
     }
 }

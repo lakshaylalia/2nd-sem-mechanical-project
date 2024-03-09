@@ -38,16 +38,13 @@ namespace Mechanical1stYearProject
             catch (Exception ex)
             {
                 loadTextBox.Text = Convert.ToString(load);
+                loadTextBox.Select(loadTextBox.Text.Length, 0);
             }
         }
 
         private void locationTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (locationTextBox.Text == ".")
-            {
-                locationTextBox.Text = "0";
-            }
-            else if (locationTextBox.Text == "")
+            if (locationTextBox.Text == "")
             {
                 position = 0.0f;
                 return;
@@ -55,18 +52,6 @@ namespace Mechanical1stYearProject
             try
             {
                 position = float.Parse(locationTextBox.Text);
-                if(position > barLength)
-                {
-                    position = barLength;
-                    locationTextBox.Text = Convert.ToString(position);
-                    locationTextBox.Select(locationTextBox.Text.Length, 0);
-                }
-                else if(position < 0.0f)
-                {
-                    position = 0.0f;
-                    locationTextBox.Text = Convert.ToString(position);
-                    locationTextBox.Select(locationTextBox.Text.Length, 0);
-                }
             }
             catch (Exception ex)
             {
@@ -78,14 +63,14 @@ namespace Mechanical1stYearProject
         private void doneButton_Click(object sender, EventArgs e)
         {
             pointLoadValues[0] = load;
-            pointLoadValues[1] = position;
+            pointLoadValues[1] = Math.Clamp(position, 0, barLength);
             Close();
         }
 
         private void PointLoadInfoForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             pointLoadValues[0] = load;
-            pointLoadValues[1] = position; 
+            pointLoadValues[1] = Math.Clamp(position, 0, barLength); 
         }
     }
 }
