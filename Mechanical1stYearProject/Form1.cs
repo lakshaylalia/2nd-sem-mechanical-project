@@ -408,6 +408,10 @@ namespace Mechanical1stYearProject
             var invisibleArrow = loadsGraph.Plot.Add.Arrow(0, barLength / 3, 0, barLength / 10);
             invisibleArrow.Color = new ScottPlot.Color(0, 0, 0, 0);
 
+            // adding text for reaction forces
+            loadsGraph.Plot.Add.Text(rfA.ToString() + "N", 0, -barLength / 3);
+            loadsGraph.Plot.Add.Text(rfB.ToString() + "N", barLength * 0.975, -barLength / 3);
+
             // displaying the sfd and bmd graphs
 
             // adding title and axel lables to sfd and bmd graphs
