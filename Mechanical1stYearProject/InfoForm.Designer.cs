@@ -39,6 +39,7 @@
             label8 = new Label();
             label9 = new Label();
             label10 = new Label();
+            github = new LinkLabel();
             SuspendLayout();
             // 
             // label1
@@ -50,7 +51,6 @@
             label1.Size = new Size(201, 35);
             label1.TabIndex = 0;
             label1.Text = "Team Members:-";
-            label1.Click += label1_Click;
             // 
             // label2
             // 
@@ -61,7 +61,6 @@
             label2.Size = new Size(354, 35);
             label2.TabIndex = 1;
             label2.Text = "23BCS015 Akshat Mani Triphati";
-            label2.Click += label2_Click;
             // 
             // label3
             // 
@@ -72,7 +71,6 @@
             label3.Size = new Size(272, 35);
             label3.TabIndex = 2;
             label3.Text = "23BCS016 Akshat Singh";
-            label3.Click += label3_Click;
             // 
             // label4
             // 
@@ -133,7 +131,6 @@
             label9.Size = new Size(273, 35);
             label9.TabIndex = 8;
             label9.Text = "23BCS054 Lakshay Lalia";
-            label9.Click += label9_Click;
             // 
             // label10
             // 
@@ -144,14 +141,25 @@
             label10.Size = new Size(272, 35);
             label10.TabIndex = 9;
             label10.Text = "23BCS059 Mangal Patel";
-            label10.Click += label10_Click;
+            // 
+            // github
+            // 
+            github.AutoSize = true;
+            github.Location = new Point(421, 21);
+            github.Name = "github";
+            github.Size = new Size(165, 20);
+            github.TabIndex = 10;
+            github.TabStop = true;
+            github.Text = "Goto Github Repository";
+            github.LinkClicked += github_LinkClicked;
             // 
             // InfoForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(255, 224, 192);
-            ClientSize = new Size(424, 372);
+            ClientSize = new Size(800, 372);
+            Controls.Add(github);
             Controls.Add(label10);
             Controls.Add(label9);
             Controls.Add(label8);
@@ -183,5 +191,6 @@
         private Label label8;
         private Label label9;
         private Label label10;
+        private LinkLabel github;
     }
 }
