@@ -142,6 +142,20 @@ namespace Mechanical1stYearProject
             {
                 xAxis[i] = i * m;
             }
+
+            // adding title and axel lables to sfd and bmd graphs
+            sfdGraph.Plot.Title("Shear Force Diagram");
+            bmdGraph.Plot.Title("Bending Moment Diagram");
+
+            sfdGraph.Plot.XLabel("Length in meters");
+            bmdGraph.Plot.XLabel("Length in meters");
+
+            sfdGraph.Plot.YLabel("Shear in N");
+            bmdGraph.Plot.YLabel("Moment in N/m");
+
+            // adding a title and axes lables to the load graph
+            loadsGraph.Plot.Title("Graph of all loads");
+            loadsGraph.Plot.XLabel("Length in meters");
         }
 
         private void addUdl_Click(object sender, EventArgs e)
@@ -221,12 +235,19 @@ namespace Mechanical1stYearProject
             try
             {
                 barLength = float.Parse(textBox1.Text);
+                if(barLength < 0)
+                {
+                    barLength = -barLength;
+                    textBox1.Text = textBox1.Text.Substring(1);
+                }
                 stepLength = barLength / numberOfSteps;
                 m = barLength / (numberOfSteps - 1);
                 for (int i = 0; i < numberOfSteps; i++)
                 {
                     xAxis[i] = i * m;
                 }
+                UpdateGraphs();
+                DisplayGraphs();
             }
             catch (Exception ex)
             {
@@ -337,7 +358,7 @@ namespace Mechanical1stYearProject
             form.Visible = true;
         }
 
-        // diplays all the graphs
+        // function to diplays all the graphs
         private void DisplayGraphs()
         {
             bmdGraph.Reset();
@@ -345,6 +366,11 @@ namespace Mechanical1stYearProject
             loadsGraph.Reset();
 
             // displaying the load graph
+
+            // adding a title and axes lables to the load graph
+            loadsGraph.Plot.Title("Graph of all loads");
+            loadsGraph.Plot.XLabel("Length in meters");
+
             // adding a rectangle for the bar
             var rect = loadsGraph.Plot.Add.Rectangle(0, barLength, -barLength / 20, barLength / 20);
             rect.FillStyle.Color = new ScottPlot.Color(0, 0, 0, 255);
@@ -383,6 +409,16 @@ namespace Mechanical1stYearProject
             invisibleArrow.Color = new ScottPlot.Color(0, 0, 0, 0);
 
             // displaying the sfd and bmd graphs
+
+            // adding title and axel lables to sfd and bmd graphs
+            sfdGraph.Plot.Title("Shear Force Diagram");
+            bmdGraph.Plot.Title("Bending Moment Diagram");
+
+            sfdGraph.Plot.XLabel("Length in meters");
+            bmdGraph.Plot.XLabel("Length in meters");
+
+            sfdGraph.Plot.YLabel("Shear in N");
+            bmdGraph.Plot.YLabel("Moment in N/m");
 
             var bmdFill = bmdGraph.Plot.Add.FillY(xAxis, bmd, zeros);
             var sfdFill = sfdGraph.Plot.Add.FillY(xAxis, sfd, zeros);
