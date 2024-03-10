@@ -1,4 +1,5 @@
 using ScottPlot;
+using System.Diagnostics;
 using System.Net.Mail;
 
 namespace Mechanical1stYearProject
@@ -46,7 +47,7 @@ namespace Mechanical1stYearProject
             public UdlValue()
             {
                 this.start = 0.0f;
-                this.end = 0.0f;
+                this.end = 1.0f; // this is done to make shure the there is no division by zero
                 this.udl = 0.0f;
             }
 
@@ -278,13 +279,10 @@ namespace Mechanical1stYearProject
             rfA = rfA / barLength;
 
             // setting all the graphs to 0
-            for(int i = 0; i < numberOfSteps; i++)
-            {
-                fd[i] = 0;
-                sfd[i] = 0;
-                bmd[i] = 0;
-            }
-
+            Debug.WriteLine(fd[0]);
+            Array.Fill(fd, 0);
+            Array.Fill(sfd, 0);
+            Array.Fill(bmd, 0);
 
             // updating the fd here
             // adding the reaction forces
@@ -312,7 +310,7 @@ namespace Mechanical1stYearProject
             }
 
             // updating the sfd and bmd here
-            sfd[0] = rfA;
+            sfd[0] = fd[0];
             bmd[0] = 0;
 
             for (int i = 1; i < numberOfSteps; i++)
