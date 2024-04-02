@@ -63,7 +63,7 @@
             label2.Name = "label2";
             label2.Size = new Size(354, 35);
             label2.TabIndex = 1;
-            label2.Text = "23BCS015 Akshat Mani Triphati";
+            label2.Text = "23BCS015 Akshat Mani Tripathi";
             // 
             // label3
             // 
