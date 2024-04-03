@@ -17,6 +17,7 @@ namespace Mechanical1stYearProject
         System.Windows.Forms.Label udlLabel, pointLoadLabel;
 
         float barLength = 10.0f;
+        float weightPerUnitLength = 0.0f;
         float stepLength; // stores barlength / numberOfSteps
         float m; // this is a multiplier which is used to convert length to array index
         float rfA, rfB; // reaction forces at the two ends of the bar
@@ -236,7 +237,7 @@ namespace Mechanical1stYearProject
             try
             {
                 barLength = float.Parse(textBox1.Text);
-                if(barLength < 0)
+                if (barLength < 0)
                 {
                     barLength = -barLength;
                     textBox1.Text = textBox1.Text.Substring(1);
@@ -260,8 +261,8 @@ namespace Mechanical1stYearProject
         private void UpdateGraphs()
         {
             // finding the reaction forces
-            rfB = 0.0f;
-            rfA = 0.0f;
+            rfB = 0;
+            rfA = 0;
 
             foreach (PointLoadValue p in pointLoadValues)
             {
@@ -278,13 +279,18 @@ namespace Mechanical1stYearProject
             rfB = rfB / barLength;
             rfA = rfA / barLength;
 
+            rfB += weightPerUnitLength * barLength / 2.0f;
+            rfA += weightPerUnitLength * barLength / 2.0f;
+
             // setting all the graphs to 0
             Debug.WriteLine(fd[0]);
-            Array.Fill(fd, 0);
             Array.Fill(sfd, 0);
             Array.Fill(bmd, 0);
 
             // updating the fd here
+            // adding all the forces due to the self weight
+            Array.Fill(fd, -weightPerUnitLength * barLength / numberOfSteps);
+
             // adding the reaction forces
             fd[0] += rfA;
             fd[numberOfSteps - 1] += rfB;
@@ -375,9 +381,9 @@ namespace Mechanical1stYearProject
 
             // adding rectangles for all the udls
             ScottPlot.Plottables.Rectangle[] udlRects = new ScottPlot.Plottables.Rectangle[udlValues.Count];
-            for(int i = 1; i < udlValues.Count; i++)
+            for (int i = 1; i < udlValues.Count; i++)
             {
-                udlRects[i] = loadsGraph.Plot.Add.Rectangle(udlValues[i].start, 
+                udlRects[i] = loadsGraph.Plot.Add.Rectangle(udlValues[i].start,
                     udlValues[i].end, barLength / 16, barLength / 10);
                 udlRects[i].FillStyle.Color = new ScottPlot.Color(udlButtons[i].BackColor.R,
                     udlButtons[i].BackColor.G, udlButtons[i].BackColor.B, 100);
@@ -388,7 +394,7 @@ namespace Mechanical1stYearProject
             ScottPlot.Plottables.Arrow[] plArrows = new ScottPlot.Plottables.Arrow[pointLoadValues.Count];
             for (int i = 1; i < pointLoadValues.Count; i++)
             {
-                plArrows[i] = loadsGraph.Plot.Add.Arrow(pointLoadValues[i].point, barLength / 3, 
+                plArrows[i] = loadsGraph.Plot.Add.Arrow(pointLoadValues[i].point, barLength / 3,
                     pointLoadValues[i].point, barLength / 10);
                 plArrows[i].Color = new ScottPlot.Color(pointLoadButtons[i].BackColor.R,
                     pointLoadButtons[i].BackColor.G, pointLoadButtons[i].BackColor.B, 255);
@@ -492,6 +498,39 @@ namespace Mechanical1stYearProject
             pointLoadBeingCreated = false;
             UpdateGraphs();
             DisplayGraphs();
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+            // weight per unit length text box will remain inactive when ever another window is open
+            if (udlBeingCreated || pointLoadBeingCreated || infoWindowOpened)
+            {
+                textBox2.Text = Convert.ToString(weightPerUnitLength);
+                textBox2.Select(textBox2.Text.Length, 0);
+            }
+
+            if (textBox2.Text == "")
+            {
+                weightPerUnitLength = 0.0f;
+                return;
+            }
+            try
+            {
+                weightPerUnitLength = float.Parse(textBox2.Text);
+                if (weightPerUnitLength < 0)
+                {
+                    weightPerUnitLength = -weightPerUnitLength;
+                    textBox2.Text = textBox2.Text.Substring(1);
+                }
+
+                UpdateGraphs();
+                DisplayGraphs();
+            }
+            catch (Exception ex)
+            {
+                textBox2.Text = Convert.ToString(weightPerUnitLength);
+                textBox2.Select(textBox2.Text.Length, 0);
+            }
         }
     }
 }

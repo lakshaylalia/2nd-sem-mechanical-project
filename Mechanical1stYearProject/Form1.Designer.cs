@@ -23,6 +23,9 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             panel1 = new Panel();
+            label2 = new Label();
+            textBox2 = new TextBox();
+            label1 = new Label();
             label5 = new Label();
             textBox1 = new TextBox();
             label4 = new Label();
@@ -47,6 +50,9 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(label2);
+            panel1.Controls.Add(textBox2);
+            panel1.Controls.Add(label1);
             panel1.Controls.Add(label5);
             panel1.Controls.Add(textBox1);
             panel1.Controls.Add(label4);
@@ -57,6 +63,33 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(882, 47);
             panel1.TabIndex = 0;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(701, 13);
+            label2.Name = "label2";
+            label2.Size = new Size(39, 20);
+            label2.TabIndex = 8;
+            label2.Text = "N/m";
+            // 
+            // textBox2
+            // 
+            textBox2.Location = new Point(570, 13);
+            textBox2.Name = "textBox2";
+            textBox2.Size = new Size(125, 27);
+            textBox2.TabIndex = 7;
+            textBox2.Text = "0.0";
+            textBox2.TextChanged += textBox2_TextChanged;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(368, 13);
+            label1.Name = "label1";
+            label1.Size = new Size(210, 20);
+            label1.TabIndex = 6;
+            label1.Text = "Weight per unit length of bar:-";
             // 
             // label5
             // 
@@ -255,5 +288,8 @@
         private ScottPlot.WinForms.FormsPlot loadsGraph;
         private ScottPlot.WinForms.FormsPlot sfdGraph;
         private ScottPlot.WinForms.FormsPlot bmdGraph;
+        private Label label2;
+        private TextBox textBox2;
+        private Label label1;
     }
 }
